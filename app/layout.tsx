@@ -27,6 +27,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <h1 className="p-3 max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black ">
+          Stock Savvy
+        </h1>
+
         {children}
       </body>
     </html>
