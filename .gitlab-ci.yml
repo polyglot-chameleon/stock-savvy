@@ -1,0 +1,10 @@
+stages:
+  - sync
+
+sync_to_github:
+  stage: sync
+  script:
+    - git remote add github git@github.com:polyglot-chameleon/stock-savvy.git
+    - git push --mirror github
+  only:
+    - main
