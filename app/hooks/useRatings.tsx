@@ -2,11 +2,13 @@ import * as echarts from "echarts";
 import { RefObject, useEffect } from "react";
 
 export default function useRatings(
-  barometerRef: RefObject<HTMLElement | null>
+  barometerRef: RefObject<HTMLElement | null>,
+  pointInTime: number
 ) {
   useEffect(() => {
     if (!barometerRef.current) return;
     const barometer = echarts.init(barometerRef.current as HTMLElement);
+
     barometer.setOption({
       series: [
         {
@@ -17,8 +19,12 @@ export default function useRatings(
           radius: "80%",
           axisLine: {
             lineStyle: {
-              color: [[1, "#0f0"]],
-              width: 3,
+              width: 30,
+              color: [
+                [0.3, "#67e0e3"],
+                [0.7, "#37a2da"],
+                [1, "#fd666d"],
+              ],
             },
           },
           splitLine: {
@@ -57,7 +63,7 @@ export default function useRatings(
           },
           data: [
             {
-              value: 58.46,
+              value: pointInTime * 14.28,
               name: "Rating",
             },
           ],
@@ -72,5 +78,5 @@ export default function useRatings(
       window.removeEventListener("resize", resizeChart);
       barometer.dispose();
     };
-  }, [barometerRef]);
+  }, [barometerRef, pointInTime]);
 }

@@ -3,10 +3,14 @@
 import { useRef } from "react";
 import useRatings from "../hooks/useRatings";
 
-export default function AnalystRatingBarometer() {
+export default function AnalystRatingBarometer({
+  pointInTime,
+}: {
+  pointInTime: number;
+}) {
   const barometerRef = useRef(null);
 
-  useRatings(barometerRef);
+  useRatings(barometerRef, pointInTime);
 
   return <div ref={barometerRef} id="barometer" />;
 }
