@@ -3,7 +3,8 @@ import * as echarts from "echarts";
 
 export default function useData(
   chartRef: RefObject<HTMLElement | null>,
-  setPointInTime: (index: number) => void
+  setPointInTime: (index: number) => void,
+  timeFrame: number
 ) {
   useEffect(() => {
     if (!chartRef.current) return;
@@ -12,7 +13,9 @@ export default function useData(
     const options = {
       xAxis: {
         type: "category",
-        data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        data: Array.from({ length: 365 }, () =>
+          new Date(Date.now()).toDateString()
+        ).slice(365 - timeFrame, 365),
       },
       yAxis: {
         type: "value",
@@ -22,11 +25,15 @@ export default function useData(
       },
       series: [
         {
-          data: [150, 230, 224, 218, 135, 147, 260],
+          data: Array.from({ length: 365 }, () =>
+            Math.floor(Math.random() * 200)
+          ).slice(365 - timeFrame, 365),
           type: "line",
         },
         {
-          data: [123, 275, 280, 133, 135, 140, 135],
+          data: Array.from({ length: 365 }, () =>
+            Math.floor(Math.random() * 200)
+          ).slice(365 - timeFrame, 365),
           type: "line",
         },
       ],
@@ -49,5 +56,5 @@ export default function useData(
       window.removeEventListener("resize", resizeChart);
       chart.dispose();
     };
-  }, [chartRef]);
+  }, [chartRef, timeFrame]);
 }
