@@ -5,6 +5,7 @@ import useData from "../hooks/useData";
 import Metrics from "./Metrics";
 import AnalystRatingBarometer from "./AnalystRatingBarometer";
 import TimeFrameDropdown from "./TimeFrameDropdown";
+import NewsFeed from "./NewsFeed";
 
 export default function Dashboard() {
   const [pointInTime, setPointInTime] = useState<number>(0);
@@ -18,7 +19,10 @@ export default function Dashboard() {
       <TimeFrameDropdown setTimeFrame={(tf: number) => setTimeFrame(tf)} />
       <div ref={chartRef} id="chart" />
       <Metrics pointInTime={pointInTime} />
-      <AnalystRatingBarometer pointInTime={pointInTime} />
+      <section className="grid grid-cols-2">
+        <AnalystRatingBarometer pointInTime={pointInTime} />
+        <NewsFeed pointInTime={pointInTime} />
+      </section>
     </section>
   );
 }
