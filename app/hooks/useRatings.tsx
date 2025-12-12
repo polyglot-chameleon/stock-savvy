@@ -63,7 +63,7 @@ export default function useRatings(
           },
           data: [
             {
-              value: pointInTime * 14.28,
+              value: (pointInTime * 14.28) % 100,
               name: "Rating",
             },
           ],

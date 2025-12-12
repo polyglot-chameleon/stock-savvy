@@ -1,17 +1,24 @@
 @import "tailwindcss";
 
-input[type=search] {
+input[type="search"] {
   border-radius: 15px;
   background-color: bg-blue-200;
 }
 
 div#chart {
   width: 100vw;
-  height:400px;
+  height: 400px;
 }
 
 div#barometer {
-  margin-left: 40vw;
+  margin-left: 20vw;
   width: 25vw;
   height: 300px;
+}
+
+section > article {
+  width: 45vw;
+  padding: 10px;
+  margin: 10px auto;
+  background-color: #f9f9f9;
 }
