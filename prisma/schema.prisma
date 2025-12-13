@@ -1,0 +1,37 @@
+generator client {
+  provider        = "prisma-client"
+  output          = "../generated/prisma"
+  previewFeatures = ["fullTextSearchPostgres"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Company {
+  id          Int          @id @default(autoincrement())
+  name        String
+  ticker      String       @unique
+  marketCap   Float?
+  ipoDate     DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  shareValues ShareValue[]
+}
+
+model ShareValue {
+  id         Int      @id @default(autoincrement())
+  companyId  Int
+  date       DateTime
+  openPrice  Float
+  closePrice Float
+  highPrice  Float
+  lowPrice   Float
+  volume     Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id])
+
+  @@index([companyId, date])
+}

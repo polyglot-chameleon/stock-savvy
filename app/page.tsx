@@ -1,11 +1,10 @@
-import Dashboard from "./components/Dashboard";
-import SearchPanel from "./components/SearchPanel";
+import Dashboard from "./dashboard/Dashboard";
+import SearchPanel from "./search/SearchPanel";
 
 export default function Home() {
   return (
     <main className="text-center">
       <SearchPanel />
-
       <Dashboard />
     </main>
   );

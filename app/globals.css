@@ -22,3 +22,21 @@ section > article {
   margin: 10px auto;
   background-color: #f9f9f9;
 }
+
+div#search-results {
+  position: absolute;
+  width: 10vw;
+  left: 45vw;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 5px;
+  z-index: 10;
+}
+
+div.search-result-item {
+  padding: 5px 10px;
+  border-bottom: 1px solid #eee;
+}

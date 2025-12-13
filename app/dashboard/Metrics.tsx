@@ -1,4 +1,4 @@
-import useMetrics from "../hooks/useMetrics";
+import useMetrics from "./useMetrics";
 
 export default function Metrics({ pointInTime }: { pointInTime: number }) {
   const metrics = useMetrics(pointInTime);

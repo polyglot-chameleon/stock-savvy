@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import useData from "../hooks/useData";
+import useData from "./useData";
 import Metrics from "./Metrics";
 import AnalystRatingBarometer from "./AnalystRatingBarometer";
 import TimeFrameDropdown from "./TimeFrameDropdown";

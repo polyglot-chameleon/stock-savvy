@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useNewsFeed from "../hooks/useNewsFeed";
+import useNewsFeed from "./useNewsFeed";
 
 export default function NewsFeed({ pointInTime }: { pointInTime: number }) {
   const [newsItems, setNewsItems] = useState<

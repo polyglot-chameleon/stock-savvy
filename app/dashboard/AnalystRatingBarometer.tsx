@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import useRatings from "../hooks/useRatings";
+import useRatings from "./useRatings";
 
 export default function AnalystRatingBarometer({
   pointInTime,
