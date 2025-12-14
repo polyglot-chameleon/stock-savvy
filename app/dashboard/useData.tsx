@@ -1,4 +1,4 @@
-import { RefObject, useEffect } from "react";
+import { RefObject, useEffect, useState } from "react";
 import * as echarts from "echarts";
 
 export default function useData(
@@ -6,16 +6,28 @@ export default function useData(
   setPointInTime: (index: number) => void,
   timeFrame: number
 ) {
+  const [data, setData] = useState<number[]>([]);
+
+  const getData = async () =>
+    setData(await (await fetch(`/api/data?companyId=${1}`)).json());
+
   useEffect(() => {
+    getData();
+
     if (!chartRef.current) return;
     const chart = echarts.init(chartRef.current);
+
+    const values = data
+      .map((item: any) => item.closePrice.toFixed(2))
+      .slice(365 - timeFrame, 365);
+    const categories = data
+      .map((item: any) => new Date(item.date).toLocaleDateString())
+      .slice(365 - timeFrame, 365);
 
     const options = {
       xAxis: {
         type: "category",
-        data: Array.from({ length: 365 }, () =>
-          new Date(Date.now()).toDateString()
-        ).slice(365 - timeFrame, 365),
+        data: categories,
       },
       yAxis: {
         type: "value",
@@ -25,15 +37,7 @@ export default function useData(
       },
       series: [
         {
-          data: Array.from({ length: 365 }, () =>
-            Math.floor(Math.random() * 200)
-          ).slice(365 - timeFrame, 365),
-          type: "line",
-        },
-        {
-          data: Array.from({ length: 365 }, () =>
-            Math.floor(Math.random() * 200)
-          ).slice(365 - timeFrame, 365),
+          data: values,
           type: "line",
         },
       ],
