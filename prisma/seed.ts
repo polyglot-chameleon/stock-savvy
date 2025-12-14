@@ -1,19 +1,39 @@
-import { ShareValueCreateManyInput } from "@/generated/prisma/models";
+import {
+  MetricCreateManyInput,
+  ShareValueCreateManyInput,
+} from "@/generated/prisma/models";
 import { prisma } from "./prisma";
 
 async function main() {
   await prisma.company.createMany({
     data: [
-      { name: "Apple Inc.", ticker: "AAPL", marketCap: 2500000000000 },
+      { name: "Apple Inc.", ticker: "AAPL" },
       {
         name: "Microsoft Corporation",
         ticker: "MSFT",
-        marketCap: 2000000000000,
       },
-      { name: "Amazon.com, Inc.", ticker: "AMZN", marketCap: 1500000000000 },
-      { name: "Alphabet Inc.", ticker: "GOOGL", marketCap: 1250000000000 },
-      { name: "Meta Platforms, Inc.", ticker: "META", marketCap: 857534234567 },
+      { name: "Amazon.com, Inc.", ticker: "AMZN" },
+      { name: "Alphabet Inc.", ticker: "GOOGL" },
+      { name: "Meta Platforms, Inc.", ticker: "META" },
     ],
+    skipDuplicates: true,
+  });
+
+  await prisma.metric.createMany({
+    data: Array.from(
+      { length: 365 },
+      () =>
+        ({
+          companyId: 1,
+          date: new Date(
+            Date.now() - Math.floor(Math.random() * 365) * 24 * 60 * 60 * 1000
+          ),
+          per: Math.random() * 50,
+          eps: Math.random() * 10,
+          roe: Math.random(),
+          d2e: Math.random(),
+        } as MetricCreateManyInput)
+    ),
     skipDuplicates: true,
   });
 

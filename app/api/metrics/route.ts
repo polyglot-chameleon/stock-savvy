@@ -1,6 +1,6 @@
 import { prisma } from "@/prisma/prisma";
 
-export async function GET(req: Request) {
+export async function GET() {
   const results = await prisma.metric.findMany({
     select: { per: true, eps: true, roe: true, d2e: true },
   });
