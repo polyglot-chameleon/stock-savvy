@@ -3,6 +3,7 @@ import {
   ShareValueCreateManyInput,
 } from "@/generated/prisma/models";
 import { prisma } from "./prisma";
+import { faker } from "@faker-js/faker";
 
 async function main() {
   await prisma.company.createMany({
@@ -50,6 +51,21 @@ async function main() {
           volume: Math.floor(Math.random() * 1000000),
         } as ShareValueCreateManyInput)
     ),
+    skipDuplicates: true,
+  });
+
+  await prisma.newsItem.createMany({
+    data: Array.from({ length: 365 }, () => ({
+      companyId: 1,
+      date: new Date(
+        Date.now() - Math.floor(Math.random() * 365) * 24 * 60 * 60 * 1000
+      ),
+      title: faker.book.title(),
+      src: "https://example.com/news",
+      sentiment: ["POSITIVE", "NEUTRAL", "NEGATIVE"][
+        Math.floor(Math.random() * 3)
+      ] as "POSITIVE" | "NEUTRAL" | "NEGATIVE",
+    })),
     skipDuplicates: true,
   });
 }

@@ -1,23 +1,17 @@
+import { NewsItem } from "@/generated/prisma/client";
 import { useEffect } from "react";
 
 export default function useNewsFeed(
-  pointInTime: number,
-  setNewsItems: (newsItems: Array<{ title: string; timestamp: Date }>) => void
+  date: Date,
+  setNewsItems: (newsItems: NewsItem[]) => void
 ) {
+  const fetchNews = async () => {
+    const response = await fetch(`/api/news?date=${date.toISOString()}`);
+    const data = await response.json();
+    setNewsItems(data);
+  };
+
   useEffect(() => {
-    setNewsItems([
-      {
-        title: "News Item 1",
-        timestamp: new Date(Date.now() - Math.random() * 1000000000),
-      },
-      {
-        title: "News Item 2",
-        timestamp: new Date(Date.now() - Math.random() * 1000000000),
-      },
-      {
-        title: "News Item 3",
-        timestamp: new Date(Date.now() - Math.random() * 1000000000),
-      },
-    ]);
-  }, [pointInTime]);
+    fetchNews();
+  }, [date]);
 }

@@ -17,6 +17,7 @@ model Company {
   updatedAt   DateTime     @updatedAt
   shareValues ShareValue[]
   metrics     Metric[]
+  newsItems   NewsItem[]
 }
 
 model Metric {
@@ -50,4 +51,25 @@ model ShareValue {
   company Company @relation(fields: [companyId], references: [id])
 
   @@index([companyId, date])
+}
+
+model NewsItem {
+  id        Int       @id @default(autoincrement())
+  companyId Int
+  date      DateTime
+  title     String
+  src       String
+  sentiment Sentiment
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id])
+
+  @@index([companyId, date])
+}
+
+enum Sentiment {
+  POSITIVE
+  NEUTRAL
+  NEGATIVE
 }

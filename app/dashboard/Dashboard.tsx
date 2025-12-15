@@ -9,11 +9,12 @@ import NewsFeed from "./newsfeed/NewsFeed";
 
 export default function Dashboard() {
   const [pointInTime, setPointInTime] = useState<number>(0);
+  const [date, setDate] = useState<Date>(new Date(Date.now()));
   const [timeFrame, setTimeFrame] = useState<number>(7);
   const [metrics, setMetrics] = useState<any[]>([]);
   const chartRef = useRef(null);
 
-  useData(chartRef, setPointInTime, timeFrame);
+  useData(chartRef, setPointInTime, timeFrame, setDate);
 
   const fetchMetrics = async () => {
     const response = await fetch("/api/metrics");
@@ -32,7 +33,7 @@ export default function Dashboard() {
       <Metrics metrics={metrics[pointInTime]} />
       <section className="grid grid-cols-2">
         <AnalystRatingBarometer pointInTime={pointInTime} />
-        <NewsFeed pointInTime={pointInTime} />
+        <NewsFeed date={date} />
       </section>
     </section>
   );

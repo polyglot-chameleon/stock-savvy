@@ -4,7 +4,8 @@ import * as echarts from "echarts";
 export default function useData(
   chartRef: RefObject<HTMLElement | null>,
   setPointInTime: (index: number) => void,
-  timeFrame: number
+  timeFrame: number,
+  setDate: (date: Date) => void
 ) {
   const [data, setData] = useState<number[]>([]);
 
@@ -52,9 +53,10 @@ export default function useData(
     const resizeChart = () => chart.resize();
     window.addEventListener("resize", resizeChart);
 
-    chart.on("highlight", (params: any) =>
-      setPointInTime(params.batch[0].dataIndex)
-    );
+    chart.on("highlight", (params: any) => {
+      setPointInTime(params.batch[0].dataIndex);
+      setDate(new Date(categories[params.batch[0].dataIndex]));
+    });
 
     return () => {
       window.removeEventListener("resize", resizeChart);
