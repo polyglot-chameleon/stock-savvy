@@ -1,5 +1,6 @@
 import {
   MetricCreateManyInput,
+  RatingCreateManyInput,
   ShareValueCreateManyInput,
 } from "@/generated/prisma/models";
 import { prisma } from "./prisma";
@@ -65,6 +66,18 @@ async function main() {
       sentiment: ["POSITIVE", "NEUTRAL", "NEGATIVE"][
         Math.floor(Math.random() * 3)
       ] as "POSITIVE" | "NEUTRAL" | "NEGATIVE",
+    })),
+    skipDuplicates: true,
+  });
+
+  await prisma.rating.createMany({
+    data: Array.from({ length: 365 }, () => ({
+      companyId: 1,
+      date: new Date(
+        Date.now() - Math.floor(Math.random() * 365) * 24 * 60 * 60 * 1000
+      ),
+      agency: faker.company.name(),
+      rating: Math.random() * 100,
     })),
     skipDuplicates: true,
   });

@@ -32,7 +32,7 @@ export default function Dashboard() {
       <div ref={chartRef} id="chart" />
       <Metrics metrics={metrics[pointInTime]} />
       <section className="grid grid-cols-2">
-        <AnalystRatingBarometer pointInTime={pointInTime} />
+        <AnalystRatingBarometer date={date} />
         <NewsFeed date={date} />
       </section>
     </section>

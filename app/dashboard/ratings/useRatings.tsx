@@ -1,11 +1,21 @@
+import { Rating } from "@/generated/prisma/browser";
 import * as echarts from "echarts";
-import { RefObject, useEffect } from "react";
+import { RefObject, useEffect, useState } from "react";
 
 export default function useRatings(
   barometerRef: RefObject<HTMLElement | null>,
-  pointInTime: number
+  date: Date
 ) {
+  const [ratings, setRatings] = useState<Partial<Rating>[]>([]);
+
+  const fetchRatings = async (date: Date) => {
+    const response = await fetch(`/api/ratings?date=${date}`);
+    setRatings(await response.json());
+  };
+
   useEffect(() => {
+    fetchRatings(date);
+
     if (!barometerRef.current) return;
     const barometer = echarts.init(barometerRef.current as HTMLElement);
 
@@ -63,7 +73,9 @@ export default function useRatings(
           },
           data: [
             {
-              value: (pointInTime * 14.28) % 100,
+              value:
+                ratings.map((r) => r.rating).reduce((a, b) => a! + b!, 0)! /
+                ratings.length,
               name: "Rating",
             },
           ],
@@ -78,5 +90,5 @@ export default function useRatings(
       window.removeEventListener("resize", resizeChart);
       barometer.dispose();
     };
-  }, [barometerRef, pointInTime]);
+  }, [barometerRef, date]);
 }
