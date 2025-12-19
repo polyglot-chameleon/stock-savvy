@@ -1,20 +1,26 @@
+import useCompany from "@/app/store/CompanyStore";
+import useTimeIdx from "@/app/store/TimeIdxStore";
 import { Rating } from "@/generated/prisma/browser";
 import * as echarts from "echarts";
 import { RefObject, useEffect, useState } from "react";
 
 export default function useRatings(
-  barometerRef: RefObject<HTMLElement | null>,
-  date: Date
+  barometerRef: RefObject<HTMLElement | null>
 ) {
   const [ratings, setRatings] = useState<Partial<Rating>[]>([]);
+  const { company } = useCompany();
+  const { timeIdx } = useTimeIdx();
 
-  const fetchRatings = async (date: Date) => {
+  const fetchRatings = async () => {
+    const date = company.shareValues[timeIdx]
+      ? company.shareValues[timeIdx].date
+      : new Date();
     const response = await fetch(`/api/ratings?date=${date}`);
     setRatings(await response.json());
   };
 
   useEffect(() => {
-    fetchRatings(date);
+    fetchRatings();
 
     if (!barometerRef.current) return;
     const barometer = echarts.init(barometerRef.current as HTMLElement);
@@ -90,5 +96,5 @@ export default function useRatings(
       window.removeEventListener("resize", resizeChart);
       barometer.dispose();
     };
-  }, [barometerRef, date]);
+  }, [barometerRef, timeIdx]);
 }

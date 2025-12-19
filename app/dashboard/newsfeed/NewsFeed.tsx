@@ -1,11 +1,25 @@
-import { useState } from "react";
-import useNewsFeed from "./useNewsFeed";
+import { useEffect, useState } from "react";
 import { NewsItem, Sentiment } from "@/generated/prisma/browser";
+import useCompany from "@/app/store/CompanyStore";
+import useTimeIdx from "@/app/store/TimeIdxStore";
 
-export default function NewsFeed({ date }: { date: Date }) {
+export default function NewsFeed() {
   const [newsItems, setNewsItems] = useState<Partial<NewsItem>[]>([]);
+  const { company } = useCompany();
+  const { timeIdx } = useTimeIdx();
 
-  useNewsFeed(date, setNewsItems);
+  const fetchNews = async () =>
+    setNewsItems(
+      await (
+        await fetch(
+          `/api/news/${company.id}?date=${company.shareValues[timeIdx].date}`
+        )
+      ).json()
+    );
+
+  useEffect(() => {
+    fetchNews();
+  }, [timeIdx]);
 
   return (
     <section className="p-4 rounded-2xl">

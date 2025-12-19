@@ -21,7 +21,7 @@ export async function GET(req: Request) {
         },
       ],
     },
-    select: { name: true, ticker: true },
+    select: { name: true, ticker: true, id: true },
   });
 
   return new Response(JSON.stringify(results), {

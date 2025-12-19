@@ -1,12 +1,11 @@
-export default function TimeFrameDropdown({
-  setTimeFrame,
-}: {
-  setTimeFrame: (tf: number) => void;
-}) {
+import useTimeframe from "../store/TimeFrameStore";
+
+export default function TimeFrameDropdown() {
+  const { setTimeframe } = useTimeframe();
   return (
     <select
       className="p-2 bg-green-100 rounded-2xl"
-      onChange={(ev) => setTimeFrame(Number(ev.target.value))}
+      onChange={(ev) => setTimeframe(Number(ev.target.value))}
     >
       <option value="7">1 Week</option>
       <option value="30">1 Month</option>

@@ -1,29 +1,24 @@
-import { RefObject, useEffect, useState } from "react";
+import { RefObject, useEffect } from "react";
 import * as echarts from "echarts";
+import useCompany from "../store/CompanyStore";
+import useTimeframe from "../store/TimeFrameStore";
+import useTimeIdx from "../store/TimeIdxStore";
 
-export default function useData(
-  chartRef: RefObject<HTMLElement | null>,
-  setPointInTime: (index: number) => void,
-  timeFrame: number,
-  setDate: (date: Date) => void
-) {
-  const [data, setData] = useState<number[]>([]);
-
-  const getData = async () =>
-    setData(await (await fetch(`/api/data?companyId=${1}`)).json());
+export default function useData(chartRef: RefObject<HTMLElement | null>) {
+  const { company } = useCompany();
+  const { timeframe } = useTimeframe();
+  const { setTimeIdx } = useTimeIdx();
 
   useEffect(() => {
-    getData();
-
     if (!chartRef.current) return;
     const chart = echarts.init(chartRef.current);
 
-    const values = data
-      .map((item: any) => item.closePrice.toFixed(2))
-      .slice(365 - timeFrame, 365);
-    const categories = data
-      .map((item: any) => new Date(item.date).toLocaleDateString())
-      .slice(365 - timeFrame, 365);
+    const values = company
+      .shareValues!.map((item: any) => item.closePrice.toFixed(2))
+      .slice(365 - timeframe, 365);
+    const categories = company
+      .shareValues!.map((item: any) => new Date(item.date).toLocaleDateString())
+      .slice(365 - timeframe, 365);
 
     const options = {
       xAxis: {
@@ -53,14 +48,13 @@ export default function useData(
     const resizeChart = () => chart.resize();
     window.addEventListener("resize", resizeChart);
 
-    chart.on("highlight", (params: any) => {
-      setPointInTime(params.batch[0].dataIndex);
-      setDate(new Date(categories[params.batch[0].dataIndex]));
-    });
+    chart.on("highlight", (params: any) =>
+      setTimeIdx(params.batch[0].dataIndex)
+    );
 
     return () => {
       window.removeEventListener("resize", resizeChart);
       chart.dispose();
     };
-  }, [chartRef, timeFrame]);
+  }, [chartRef, timeframe, company]);
 }

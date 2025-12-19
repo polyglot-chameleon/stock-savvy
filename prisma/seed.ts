@@ -21,12 +21,12 @@ async function main() {
     skipDuplicates: true,
   });
 
-  await prisma.metric.createMany({
+  const getMetrics = (companyId: number) => ({
     data: Array.from(
       { length: 365 },
       () =>
         ({
-          companyId: 1,
+          companyId: companyId,
           date: new Date(
             Date.now() - Math.floor(Math.random() * 365) * 24 * 60 * 60 * 1000
           ),
@@ -39,11 +39,16 @@ async function main() {
     skipDuplicates: true,
   });
 
-  await prisma.shareValue.createMany({
+  Array.from(
+    { length: 5 },
+    async (_, i) => await prisma.metric.createMany(getMetrics(i + 1))
+  );
+
+  const getShareValues = (companyId: number) => ({
     data: Array.from({ length: 365 }, () => Math.random() * 500).map(
       (value, index) =>
         ({
-          companyId: 1,
+          companyId: companyId,
           date: new Date(Date.now() - (364 - index) * 24 * 60 * 60 * 1000),
           highPrice: value,
           lowPrice: value,
@@ -55,9 +60,14 @@ async function main() {
     skipDuplicates: true,
   });
 
-  await prisma.newsItem.createMany({
+  Array.from(
+    { length: 5 },
+    async (_, i) => await prisma.shareValue.createMany(getShareValues(i + 1))
+  );
+
+  const getNewsItems = (companyId: number) => ({
     data: Array.from({ length: 365 }, () => ({
-      companyId: 1,
+      companyId: companyId,
       date: new Date(
         Date.now() - Math.floor(Math.random() * 365) * 24 * 60 * 60 * 1000
       ),
@@ -69,6 +79,11 @@ async function main() {
     })),
     skipDuplicates: true,
   });
+
+  Array.from(
+    { length: 5 },
+    async (_, i) => await prisma.newsItem.createMany(getNewsItems(i + 1))
+  );
 
   await prisma.rating.createMany({
     data: Array.from({ length: 365 }, () => ({

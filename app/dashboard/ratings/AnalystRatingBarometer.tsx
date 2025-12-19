@@ -3,10 +3,9 @@
 import { useRef } from "react";
 import useRatings from "./useRatings";
 
-export default function AnalystRatingBarometer({ date }: { date: Date }) {
+export default function AnalystRatingBarometer() {
   const barometerRef = useRef(null);
-
-  useRatings(barometerRef, date);
+  useRatings(barometerRef);
 
   return <div ref={barometerRef} id="barometer" />;
 }
