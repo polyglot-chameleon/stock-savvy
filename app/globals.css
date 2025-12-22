@@ -1,13 +1,14 @@
 @import "tailwindcss";
 
-input[type="search"] {
-  border-radius: 15px;
-  background-color: bg-blue-200;
+div#chart {
+  width: 65vw;
+  height: 400px;
 }
 
-div#chart {
-  width: 100vw;
-  height: 400px;
+@media (width <= 768px) {
+  div#chart {
+    width: 100vw;
+  }
 }
 
 div#barometer {

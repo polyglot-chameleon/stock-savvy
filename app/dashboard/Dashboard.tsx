@@ -16,18 +16,26 @@ export default function Dashboard() {
 
   return (
     <section>
-      <TimeFrameDropdown />
       {company.ticker && (
-        <h1 className="text-left ml-5">
-          {company.name} ({company.ticker})
-        </h1>
+        <section className="flex gap-x-10">
+          <h1 className="text-left ml-5 text-2xl">
+            {company.name} ({company.ticker})
+          </h1>
+          <TimeFrameDropdown />
+        </section>
       )}
-      <div ref={chartRef} id="chart" />
-      {company.metrics && <Metrics />}
-      <section className="grid grid-cols-2">
-        <AnalystRatingBarometer />
-        <NewsFeed />
+
+      <section className="grid sm:grid-cols-1 md:grid-cols-[max-content_0.85fr]">
+        <div ref={chartRef} id="chart" />
+        {company.metrics && <Metrics />}
       </section>
+
+      {company.ticker && (
+        <section className="grid sm:grid-cols-1 md:grid-cols-2">
+          <AnalystRatingBarometer />
+          <NewsFeed />
+        </section>
+      )}
     </section>
   );
 }

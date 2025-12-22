@@ -4,7 +4,7 @@ import useCompany from "@/app/store/CompanyStore";
 import useTimeIdx from "@/app/store/TimeIdxStore";
 
 export default function NewsFeed() {
-  const [newsItems, setNewsItems] = useState<Partial<NewsItem>[]>([]);
+  const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const { company } = useCompany();
   const { timeIdx } = useTimeIdx();
 
@@ -22,17 +22,18 @@ export default function NewsFeed() {
   }, [timeIdx]);
 
   return (
-    <section className="p-4 rounded-2xl">
+    <section>
       {newsItems.map((n) => (
         <article
           key={n.id}
-          className={
-            n.sentiment === Sentiment.POSITIVE
-              ? "bg-green-300"
-              : n.sentiment === Sentiment.NEGATIVE
-              ? "bg-red-300"
-              : ""
-          }
+          className={`p-4 rounded-2xl
+            ${
+              n.sentiment === Sentiment.POSITIVE
+                ? "bg-green-300"
+                : n.sentiment === Sentiment.NEGATIVE
+                ? "bg-red-300"
+                : ""
+            }`}
         >
           {n.title} - <time>{n.date}</time>
         </article>

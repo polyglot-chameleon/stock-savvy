@@ -27,12 +27,13 @@ export default function SearchPanel() {
   const select = (id: number) => fetchCompany(id);
 
   return (
-    <search>
+    <search className="text-center">
       <input
         ref={searchRef}
         type="search"
+        placeholder="Search..."
         name="q"
-        className="p-2 bg-blue-100"
+        className="rounded-2xl p-2 bg-blue-100"
         onChange={search}
       />
       {Boolean(searchResults.length) && (

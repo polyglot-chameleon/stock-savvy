@@ -79,9 +79,10 @@ export default function useRatings(
           },
           data: [
             {
-              value:
+              value: (
                 ratings.map((r) => r.rating).reduce((a, b) => a! + b!, 0)! /
-                ratings.length,
+                ratings.length
+              ).toFixed(2),
               name: "Rating",
             },
           ],
