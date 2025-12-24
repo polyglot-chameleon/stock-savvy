@@ -73,9 +73,7 @@ async function main() {
       ),
       title: faker.book.title(),
       src: "https://example.com/news",
-      sentiment: ["POSITIVE", "NEUTRAL", "NEGATIVE"][
-        Math.floor(Math.random() * 3)
-      ] as "POSITIVE" | "NEUTRAL" | "NEGATIVE",
+      sentiment: Math.random() * 2 - 1,
     })),
     skipDuplicates: true,
   });

@@ -17,12 +17,6 @@ div#barometer {
   height: 300px;
 }
 
-section > article {
-  width: 45vw;
-  padding: 10px;
-  margin: 10px auto;
-}
-
 div#search-results {
   position: absolute;
   width: 10vw;

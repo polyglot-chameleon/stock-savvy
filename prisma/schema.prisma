@@ -55,24 +55,18 @@ model ShareValue {
 }
 
 model NewsItem {
-  id        Int       @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   companyId Int
   date      DateTime
   title     String
   src       String
-  sentiment Sentiment
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  sentiment Float    @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   company Company @relation(fields: [companyId], references: [id])
 
   @@index([companyId, date])
-}
-
-enum Sentiment {
-  POSITIVE
-  NEUTRAL
-  NEGATIVE
 }
 
 model Rating {
